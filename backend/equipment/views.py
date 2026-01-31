@@ -78,14 +78,14 @@ class UploadHistoryAPIView(APIView):
             })
 
         return Response(history)
+@method_decorator(csrf_exempt, name='dispatch')
 class GeneratePDFAPIView(APIView):
+    authentication_classes = []   # 🔑 disable auth
+    permission_classes = [AllowAny]
 
     def post(self, request):
         if 'file' not in request.FILES:
-            return Response(
-                {"error": "CSV file not provided"},
-                status=400
-            )
+            return Response({"error": "CSV file not provided"}, status=400)
 
         file = request.FILES['file']
         summary = analyze_csv(file)
@@ -93,7 +93,7 @@ class GeneratePDFAPIView(APIView):
         pdf_path = generate_pdf(summary)
 
         return FileResponse(
-            open(pdf_path, 'rb'),
+            open(pdf_path, "rb"),
             as_attachment=True,
-            filename=pdf_path
+            filename="equipment_report.pdf"
         )
