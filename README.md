@@ -29,132 +29,101 @@ The system processes uploaded CSV files containing equipment parameters such as 
 
 ## 🏗️ System Architecture
 
+```text
 ┌──────────────┐
-│ React Web │
-│ Frontend │
+│  React Web   │
+│  Frontend    │
 └──────┬───────┘
-│ REST API
+       │ REST API
 ┌──────▼───────┐
 │ Django + DRF │
-│ Backend │
-│ (Pandas) │
+│   Backend    │
+│  (Pandas)    │
 └──────┬───────┘
-│ REST API
+       │ REST API
 ┌──────▼───────┐
-│ PyQt5 │
-│ Desktop App │
-│ Matplotlib │
+│ PyQt5        │
+│ Desktop App  │
+│ Matplotlib   │
 └──────────────┘
 
-
----
-
-## 🛠️ Tech Stack
-
-### Backend
-- Python
-- Django
-- Django REST Framework
-- Pandas
-- SQLite
-- ReportLab (PDF generation)
-
-### Web Frontend
-- React.js
-- Axios
-- Chart.js
-- HTML / CSS
-
-### Desktop Frontend
-- PyQt5
-- Matplotlib
-- Requests
-
-### Version Control
-- Git
-- GitHub
-
----
-
-## ✨ Features
-
-### 📂 CSV Upload
-- Upload CSV files from **Web or Desktop**
-- Automatic validation of required columns
-
-### 📊 Data Analytics
-- Total equipment count
-- Average flowrate, pressure, and temperature
-- Equipment type distribution
-
-### 📈 Visualization
-- **Web:** Interactive bar charts using Chart.js
-- **Desktop:** Embedded Matplotlib charts inside PyQt5
-
-### 🗂️ History Management
-- Stores last **5 uploaded datasets**
-- Persistent storage using SQLite
-
-### 📄 PDF Report Generation
-- Generates downloadable summary reports
-- Includes statistics and equipment distribution
-
-### 🔐 Authentication
-- Session-based authentication
-- Protected APIs for history and report access
-
----
-
-## 📁 Project Structure
-
+🛠️ Tech Stack
+Backend
+Python
+Django
+Django REST Framework
+Pandas
+SQLite
+ReportLab (PDF generation)
+Web Frontend
+React.js
+Axios
+Chart.js
+HTML / CSS
+Desktop Frontend
+PyQt5
+Matplotlib
+Requests
+Version Control
+Git
+GitHub
+✨ Features
+📂 CSV Upload
+Upload CSV files from Web or Desktop
+Automatic validation of required columns
+📊 Data Analytics
+Total equipment count
+Average flowrate, pressure, and temperature
+Equipment type distribution
+📈 Visualization
+Web: Interactive bar charts using Chart.js
+Desktop: Embedded Matplotlib charts inside PyQt5
+🗂️ History Management
+Stores last 5 uploaded datasets
+Persistent storage using SQLite
+📄 PDF Report Generation
+Generates downloadable summary reports
+Includes statistics and equipment distribution
+🔐 Authentication
+Session-based authentication
+Protected APIs for history and report access
+📁 Project Structure
 chemical-equipment-visualizer/
 ├── backend/
-│ ├── core/
-│ ├── equipment/
-│ ├── manage.py
-│ └── db.sqlite3
+│   ├── core/
+│   ├── equipment/
+│   ├── manage.py
+│   ├── requirements.txt
+│   └── db.sqlite3
 │
 ├── web-frontend/
-│ ├── src/
-│ ├── public/
-│ └── package.json
+│   ├── src/
+│   ├── public/
+│   ├── package.json
+│   └── node_modules/
 │
 ├── desktop-app/
-│ ├── main.py
-│ └── venv/
+│   ├── main.py
+│   ├── requirements.txt
+│   └── venv/
 │
 ├── sample_equipment_data.csv
 └── README.md
-
-
----
-
-## 🔗 API Endpoints
-
-| Method | Endpoint        | Description                       |
-|------|-----------------|-----------------------------------|
-| POST | `/api/upload/`  | Upload CSV & get analytics        |
-| GET  | `/api/history/` | Fetch last 5 uploaded datasets    |
-| POST | `/api/report/`  | Generate PDF summary report       |
-
----
-
-## 🚀 Use Case
-This project is ideal for demonstrating:
-- **Data analytics pipelines**
-- **REST API design**
-- **Cross-platform application development**
-- **Real-world engineering workflows**
-- 
-## 📦 Requirements & Setup
-### Backend (Django)
+🔗 API Endpoints
+Method	Endpoint	Description
+POST	/api/upload/	Upload CSV & get analytics
+GET	/api/history/	Fetch last 5 uploaded datasets
+POST	/api/report/	Generate PDF summary report
+📦 Requirements & Setup
+Backend (Django)
+Requirements
 Python 3.9+
 Django
 Django REST Framework
 Pandas
 SQLite
 ReportLab
-Install backend dependencies:
+Setup & Run
 cd backend
 python3 -m venv venv
 source venv/bin/activate
@@ -162,43 +131,33 @@ pip install -r requirements.txt
 python manage.py migrate
 python manage.py createsuperuser
 python manage.py runserver
+Backend runs at: http://127.0.0.1:8000
 
-###Desktop Application (PyQt5)
+Desktop Application (PyQt5)
+Requirements
 Python 3.9+
 PyQt5
 Matplotlib
 Requests
-Install desktop dependencies:
+Pandas
+Setup & Run
 cd desktop-app
 python3 -m venv venv
 source venv/bin/activate
-pip install pyqt5 requests matplotlib pandas
+pip install -r requirements.txt
 python main.py
 
 Web Frontend (React)
+Requirements
 Node.js 16+
 npm
-Install and run web app:
+Setup & Run
 cd web-frontend
 npm install
 npm start
-Access at: http://localhost:3000
-
-Sample CSV Format
+Web app runs at: http://localhost:3000
+📄 Sample CSV Format
 Equipment Name,Type,Flowrate,Pressure,Temperature
 Pump-1,Pump,120,5.2,110
 Reactor-1,Reactor,150,7.1,135
 Valve-1,Valve,60,4.1,105
-
-👤 Author
-Ritheesh Reddy
-Computer Science Graduate
-Interested in Full-Stack Development, Data Analytics, and Machine Learning
-
-📌 License
-This project is intended for educational and internship evaluation purposes.
-
-
-
-
-- 
