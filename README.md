@@ -145,3 +145,60 @@ This project is ideal for demonstrating:
 - **REST API design**
 - **Cross-platform application development**
 - **Real-world engineering workflows**
+- 
+## 📦 Requirements & Setup
+### Backend (Django)
+Python 3.9+
+Django
+Django REST Framework
+Pandas
+SQLite
+ReportLab
+Install backend dependencies:
+cd backend
+python3 -m venv venv
+source venv/bin/activate
+pip install -r requirements.txt
+python manage.py migrate
+python manage.py createsuperuser
+python manage.py runserver
+
+###Desktop Application (PyQt5)
+Python 3.9+
+PyQt5
+Matplotlib
+Requests
+Install desktop dependencies:
+cd desktop-app
+python3 -m venv venv
+source venv/bin/activate
+pip install pyqt5 requests matplotlib pandas
+python main.py
+
+Web Frontend (React)
+Node.js 16+
+npm
+Install and run web app:
+cd web-frontend
+npm install
+npm start
+Access at: http://localhost:3000
+
+Sample CSV Format
+Equipment Name,Type,Flowrate,Pressure,Temperature
+Pump-1,Pump,120,5.2,110
+Reactor-1,Reactor,150,7.1,135
+Valve-1,Valve,60,4.1,105
+
+👤 Author
+Ritheesh Reddy
+Computer Science Graduate
+Interested in Full-Stack Development, Data Analytics, and Machine Learning
+
+📌 License
+This project is intended for educational and internship evaluation purposes.
+
+
+
+
+- 
