@@ -13,7 +13,7 @@ from matplotlib.backends.backend_qt5agg import FigureCanvasQTAgg as FigureCanvas
 from matplotlib.figure import Figure
 
 
-API_URL = "http://127.0.0.1:8000/api/upload/"
+API_URL = "https://chemical-equipment-visualizer-i9my.onrender.com/api/upload/"
 
 
 # ---------------- SUMMARY CARD ----------------
