@@ -97,3 +97,11 @@ class GeneratePDFAPIView(APIView):
             as_attachment=True,
             filename="equipment_report.pdf"
         )
+from django.http import JsonResponse
+
+def home(request):
+    return JsonResponse({
+        "status": "Backend is running",
+        "project": "Chemical Equipment Parameter Visualizer",
+        "backend": "Django + Django REST Framework",
+    })
