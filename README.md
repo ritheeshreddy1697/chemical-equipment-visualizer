@@ -23,7 +23,7 @@ The system processes uploaded CSV files containing equipment parameters such as 
   - **Chart.js** (Web)
   - **Matplotlib** (Desktop)
 - Demonstrate **full-stack + desktop engineering skills**
-- Maintain **clean architecture** and professional project structure
+- Maintain **clean architecture** and professional project structures
 
 ---
 
