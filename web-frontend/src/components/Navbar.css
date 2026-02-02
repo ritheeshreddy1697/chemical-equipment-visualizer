@@ -1,0 +1,24 @@
+.navbar {
+  height: 60px;
+  background: linear-gradient(to right, #111112, #0b0b0b);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 40px;
+  color: white;
+}
+
+.navbar-title {
+  font-size: 18px;
+  font-weight: bold;
+}
+
+.navbar-links span {
+  margin-left: 20px;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+.navbar-links span:hover {
+  text-decoration: underline;
+}
