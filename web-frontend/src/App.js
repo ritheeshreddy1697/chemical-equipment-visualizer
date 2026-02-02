@@ -1,6 +1,7 @@
 import { useState } from "react";
 import axios from "axios";
 import "./App.css";
+import Navbar from "./components/Navbar";
 
 // Chart.js imports
 import {
@@ -24,7 +25,8 @@ ChartJS.register(
   Legend
 );
 
-const API_BASE = "https://chemical-equipment-visualizer-i9my.onrender.com/api";
+const API_BASE =
+  "https://chemical-equipment-visualizer-i9my.onrender.com/api";
 
 function App() {
   const [file, setFile] = useState(null);
@@ -45,7 +47,10 @@ function App() {
     formData.append("file", file);
 
     try {
-      const response = await axios.post(`${API_BASE}/upload/`, formData);
+      const response = await axios.post(
+        `${API_BASE}/upload/`,
+        formData
+      );
       setData(response.data);
       setMessage("CSV uploaded successfully ✅");
     } catch (error) {
@@ -70,7 +75,9 @@ function App() {
         { responseType: "blob" }
       );
 
-      const url = window.URL.createObjectURL(new Blob([response.data]));
+      const url = window.URL.createObjectURL(
+        new Blob([response.data])
+      );
       const link = document.createElement("a");
       link.href = url;
       link.setAttribute("download", "equipment_report.pdf");
@@ -90,105 +97,116 @@ function App() {
         {
           label: "Equipment Count",
           data: Object.values(data.type_distribution),
-          backgroundColor: "rgba(46, 134, 222, 0.7)",
+          backgroundColor: "rgba(255, 106, 0, 0.7)",
         },
       ],
     };
 
   return (
-    <div className="app-container">
-      <h1>Chemical Equipment Parameter Visualizer</h1>
+    <>
+      {/* Top Navbar */}
+      <Navbar />
 
-      {/* Upload Section */}
-      <div className="section">
-        <h2>Upload CSV</h2>
-        <input type="file" accept=".csv" onChange={handleFileChange} />
-        <br /><br />
+      <div className="page-container">
+        {/* Upload Card */}
+        <div className="upload-card">
+          <h2>Upload CSV File</h2>
 
-        <button onClick={handleUpload}>Upload CSV</button>
-        &nbsp;&nbsp;
-        <button onClick={handleDownloadPDF}>Download PDF</button>
+          <input
+            type="file"
+            accept=".csv"
+            className="file-input"
+            onChange={handleFileChange}
+          />
 
-        <p>{message}</p>
-      </div>
+          <div className="button-row">
+            <button className="btn-primary" onClick={handleUpload}>
+              Upload
+            </button>
 
-      {/* Analytics Section */}
-      {data && (
-        <>
-          {/* Summary Cards */}
-          <div className="section">
-            <h2>Summary</h2>
-            <div style={{ display: "flex", gap: "20px", flexWrap: "wrap" }}>
-              <SummaryCard title="Total Equipment" value={data.total_count} />
-              <SummaryCard title="Avg Flowrate" value={data.avg_flowrate.toFixed(2)} />
-              <SummaryCard title="Avg Pressure" value={data.avg_pressure.toFixed(2)} />
-              <SummaryCard
-                title="Avg Temperature"
-                value={data.avg_temperature.toFixed(2)}
-              />
-            </div>
-          </div>
-
-          {/* Table */}
-          <div className="section">
-            <h2>Equipment Data</h2>
-            <table
-              border="1"
-              cellPadding="8"
-              style={{ width: "100%", borderCollapse: "collapse" }}
+            <button
+              className="btn-secondary"
+              onClick={handleDownloadPDF}
             >
-              <thead style={{ backgroundColor: "#f0f3f5" }}>
-                <tr>
-                  <th>Equipment Name</th>
-                  <th>Type</th>
-                  <th>Flowrate</th>
-                  <th>Pressure</th>
-                  <th>Temperature</th>
-                </tr>
-              </thead>
-              <tbody>
-                {data.table_data.map((row, index) => (
-                  <tr key={index}>
-                    <td>{row["Equipment Name"]}</td>
-                    <td>{row.Type}</td>
-                    <td>{row.Flowrate}</td>
-                    <td>{row.Pressure}</td>
-                    <td>{row.Temperature}</td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
+              Download Report
+            </button>
           </div>
 
-          {/* Chart */}
-          <div className="section">
-            <h2>Equipment Type Distribution</h2>
-            <div style={{ maxWidth: "700px", margin: "auto" }}>
-              <Bar data={chartData} />
+          <p className="status-text">{message}</p>
+        </div>
+
+        {/* Summary Section */}
+        {data && (
+          <>
+            <div className="section-card">
+              <h2>Summary</h2>
+              <div className="summary-grid">
+                <SummaryCard
+                  title="Total Equipment"
+                  value={data.total_count}
+                />
+                <SummaryCard
+                  title="Avg Flowrate"
+                  value={data.avg_flowrate.toFixed(2)}
+                />
+                <SummaryCard
+                  title="Avg Pressure"
+                  value={data.avg_pressure.toFixed(2)}
+                />
+                <SummaryCard
+                  title="Avg Temperature"
+                  value={data.avg_temperature.toFixed(2)}
+                />
+              </div>
             </div>
-          </div>
-        </>
-      )}
-    </div>
+
+            {/* Table */}
+            <div className="section-card">
+              <h2>Equipment Data</h2>
+              <table className="data-table">
+                <thead>
+                  <tr>
+                    <th>Equipment Name</th>
+                    <th>Type</th>
+                    <th>Flowrate</th>
+                    <th>Pressure</th>
+                    <th>Temperature</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {data.table_data.map((row, index) => (
+                    <tr key={index}>
+                      <td>{row["Equipment Name"]}</td>
+                      <td>{row.Type}</td>
+                      <td>{row.Flowrate}</td>
+                      <td>{row.Pressure}</td>
+                      <td>{row.Temperature}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+
+            {/* Chart */}
+            <div className="section-card">
+              <h2>Equipment Type Distribution</h2>
+              <div style={{ maxWidth: "700px", margin: "auto" }}>
+                <Bar data={chartData} />
+              </div>
+            </div>
+          </>
+        )}
+      </div>
+    </>
   );
 }
 
 /* Summary Card Component */
 function SummaryCard({ title, value }) {
   return (
-    <div
-      style={{
-        flex: "1",
-        minWidth: "200px",
-        background: "#f8f9fa",
-        padding: "15px",
-        borderRadius: "8px",
-        textAlign: "center",
-        boxShadow: "0 1px 4px rgba(0,0,0,0.1)",
-      }}
-    >
-      <h3 style={{ marginBottom: "10px", color: "#34495e" }}>{title}</h3>
-      <p style={{ fontSize: "20px", fontWeight: "bold" }}>{value}</p>
+    <div className="summary-card">
+      <h3>{title}</h3>
+      <p>{value}</p>
     </div>
   );
 }
