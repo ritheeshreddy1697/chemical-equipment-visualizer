@@ -81,35 +81,49 @@ Backend (Django)
 Web Frontend (React)
 
 Desktop Application (PyQt5)
+## 🌐 Deployment
 
-🌐 Deployment
-Backend and Web Frontend are deployed on Render
-Live URL: https://chemical-equipment-visualizer-1-o43s.onrender.com�
+- **Backend and Web Frontend:** Deployed on **Render**
+- **Live Application URL:**  
+  https://chemical-equipment-visualizer-1-o43s.onrender.com
 
-🎥 Demo (Optional)
-A short 2–3 minute demo video can be recorded demonstrating:
-CSV upload
-Summary analytics
-Charts and tables
-Upload history navigation
-PDF report download
+---
 
-🧠 Learning Outcomes
-Full-stack development using Django and React
-REST API design and integration
-Cross-platform UI development (Web + Desktop)
-Data analytics using Pandas
-Data visualization with Chart.js and Matplotlib
-Cloud deployment using Render
-Professional Git workflow and project structuring
+## 🎥 Demo (Optional)
 
-📌 Future Enhancements
-User authentication and authorization
-Persistent database-backed upload history
-Export history to CSV
-Advanced data filtering and search
-Desktop application packaging (.exe / .dmg)
+A short **2–3 minute demo video** can be recorded demonstrating:
 
-👨‍💻 Author
-Ritheesh Reddy
+- CSV file upload
+- Summary analytics
+- Charts and tabular data visualization
+- Upload history navigation
+- PDF report download
+
+---
+
+## 🧠 Learning Outcomes
+
+- Full-stack development using **Django** and **React**
+- REST API design and integration
+- Cross-platform UI development (**Web + Desktop**)
+- Data analytics using **Pandas**
+- Data visualization using **Chart.js** and **Matplotlib**
+- Cloud deployment using **Render**
+- Professional **Git & GitHub** workflow and project structuring
+
+---
+
+## 📌 Future Enhancements
+
+- User authentication and authorization
+- Persistent database-backed upload history
+- Export upload history to CSV
+- Advanced data filtering and search
+- Desktop application packaging (`.exe` / `.dmg`)
+
+---
+
+## 👨‍💻 Author
+
+**Ritheesh Reddy**  
 Aspiring Software Engineer | Full-Stack & Data Analytics Enthusiast
