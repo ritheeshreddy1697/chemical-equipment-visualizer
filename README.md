@@ -76,11 +76,11 @@ The system demonstrates real-world full-stack development with data analytics, v
 
 🛠️ Setup Instructions
 
-Backend (Django)
+##Backend (Django)
 
-Web Frontend (React)
+##Web Frontend (React)
 
-Desktop Application (PyQt5)
+##Desktop Application (PyQt5)
 ## 🌐 Deployment
 
 - **Backend and Web Frontend:** Deployed on **Render**
