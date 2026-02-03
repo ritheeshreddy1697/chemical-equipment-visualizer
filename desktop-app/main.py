@@ -1,239 +1,297 @@
 import sys
 import requests
-
 from PyQt5.QtWidgets import (
     QApplication, QWidget, QVBoxLayout, QHBoxLayout,
-    QPushButton, QLabel, QFileDialog, QMessageBox,
-    QTableWidget, QTableWidgetItem, QFrame
+    QLabel, QPushButton, QFileDialog, QTableWidget,
+    QTableWidgetItem, QLineEdit, QStackedWidget, QFrame
 )
-from PyQt5.QtGui import QFont
 from PyQt5.QtCore import Qt
-
+from PyQt5.QtGui import QFont
 from matplotlib.backends.backend_qt5agg import FigureCanvasQTAgg as FigureCanvas
 from matplotlib.figure import Figure
 
+API_BASE = "https://chemical-equipment-visualizer-i9my.onrender.com/api"
 
-API_URL = "https://chemical-equipment-visualizer-i9my.onrender.com/api/upload/"
 
-
-# ---------------- SUMMARY CARD ----------------
-class InfoCard(QFrame):
-    def __init__(self, title, value):
+# ---------- CARD ----------
+class Card(QFrame):
+    def __init__(self):
         super().__init__()
-
-        self.setFixedSize(220, 110)
         self.setStyleSheet("""
             QFrame {
-                background-color: #ffffff;
+                background: white;
                 border-radius: 12px;
-            }
-            QLabel {
-                color: #2c3e50;
+                padding: 16px;
             }
         """)
 
-        layout = QVBoxLayout()
-        layout.setAlignment(Qt.AlignCenter)
 
-        title_label = QLabel(title)
-        title_label.setFont(QFont("Arial", 10))
-        title_label.setAlignment(Qt.AlignCenter)
-
-        value_label = QLabel(str(value))
-        value_label.setFont(QFont("Arial", 20, QFont.Bold))
-        value_label.setAlignment(Qt.AlignCenter)
-
-        layout.addWidget(title_label)
-        layout.addWidget(value_label)
-        self.setLayout(layout)
-
-
-# ---------------- MAIN WINDOW ----------------
+# ---------- MAIN WINDOW ----------
 class MainWindow(QWidget):
     def __init__(self):
         super().__init__()
+        self.setWindowTitle("Chemical Equipment Visualizer")
+        self.resize(1200, 800)
 
-        self.setWindowTitle("Chemical Equipment Parameter Visualizer (Desktop)")
-        self.setGeometry(100, 100, 1100, 780)
+        self.data = None
+        self.history = []
 
-        # Dark dashboard background
-        self.setStyleSheet("background-color: #121212;")
+        self.main_layout = QVBoxLayout(self)
+        self.main_layout.setSpacing(0)
+        self.main_layout.setContentsMargins(0, 0, 0, 0)
 
-        self.main_layout = QVBoxLayout()
-        self.main_layout.setSpacing(18)
+        self.build_navbar()
+        self.build_stack()
 
-        # -------- TITLE --------
-        title = QLabel("Chemical Equipment Parameter Visualizer")
-        title.setFont(QFont("Arial", 22, QFont.Bold))
-        title.setAlignment(Qt.AlignCenter)
-        title.setStyleSheet("color: white;")
-
-        title_container = QFrame()
-        title_container.setStyleSheet("""
-            background-color: #1f1f1f;
-            padding: 18px;
-            border-radius: 10px;
+    # ---------- NAVBAR ----------
+    def build_navbar(self):
+        nav_widget = QWidget()
+        nav_widget.setStyleSheet("""
+            background: qlineargradient(
+                x1:0, y1:0, x2:1, y2:0,
+                stop:0 #ff512f,
+                stop:1 #f09819
+            );
         """)
 
-        title_layout = QVBoxLayout()
-        title_layout.addWidget(title)
-        title_container.setLayout(title_layout)
-        self.main_layout.addWidget(title_container)
+        nav = QHBoxLayout(nav_widget)
+        nav.setContentsMargins(20, 10, 20, 10)
 
-        # -------- UPLOAD --------
-        upload_frame = QFrame()
-        upload_frame.setStyleSheet("""
-            background-color: #1f1f1f;
-            padding: 12px;
-            border-radius: 10px;
-        """)
+        title = QLabel("Chemical Equipment Visualizer")
+        title.setStyleSheet("color: white; font-size: 18px; font-weight: bold;")
 
-        upload_layout = QHBoxLayout()
+        upload_btn = QPushButton("Upload")
+        history_btn = QPushButton("History")
 
-        self.upload_btn = QPushButton("Upload CSV")
-        self.upload_btn.setFixedSize(160, 40)
-        self.upload_btn.setStyleSheet("""
+        for btn in (upload_btn, history_btn):
+            btn.setStyleSheet("""
+                QPushButton {
+                    background: transparent;
+                    color: white;
+                    font-size: 14px;
+                    border: none;
+                }
+                QPushButton:hover {
+                    text-decoration: underline;
+                }
+            """)
+
+        upload_btn.clicked.connect(lambda: self.stack.setCurrentIndex(0))
+        history_btn.clicked.connect(lambda: self.stack.setCurrentIndex(2))
+
+        nav.addWidget(title)
+        nav.addStretch()
+        nav.addWidget(upload_btn)
+        nav.addWidget(history_btn)
+
+        self.main_layout.addWidget(nav_widget)
+
+    # ---------- STACK ----------
+    def build_stack(self):
+        self.stack = QStackedWidget()
+        self.main_layout.addWidget(self.stack)
+
+        self.stack.addWidget(self.upload_view())
+        self.stack.addWidget(self.dashboard_view())
+        self.stack.addWidget(self.history_view())
+
+    # ---------- BUTTON STYLE ----------
+    def style_orange_button(self, btn):
+        btn.setStyleSheet("""
             QPushButton {
-                background-color: #2e86de;
+                background-color: #f09819;
                 color: white;
-                border-radius: 8px;
-                font-weight: bold;
+                font-size: 13px;
+                padding: 8px 14px;
+                border-radius: 6px;
             }
             QPushButton:hover {
-                background-color: #1b4f72;
+                background-color: #ff8c00;
             }
         """)
-        self.upload_btn.clicked.connect(self.upload_csv)
 
-        upload_layout.addStretch()
-        upload_layout.addWidget(self.upload_btn)
-        upload_layout.addStretch()
+    # ---------- UPLOAD VIEW ----------
+    def upload_view(self):
+        widget = QWidget()
+        layout = QVBoxLayout(widget)
+        layout.setAlignment(Qt.AlignTop | Qt.AlignHCenter)
+        layout.setContentsMargins(0, 40, 0, 0)
 
-        upload_frame.setLayout(upload_layout)
-        self.main_layout.addWidget(upload_frame)
+        card = Card()
+        card.setFixedWidth(500)
+        card_layout = QVBoxLayout(card)
+        card_layout.setSpacing(12)
 
-        # -------- SUMMARY CARDS --------
-        self.cards_layout = QHBoxLayout()
-        self.cards_layout.setSpacing(20)
-        self.cards_layout.setAlignment(Qt.AlignCenter)
-        self.main_layout.addLayout(self.cards_layout)
+        title = QLabel("Upload CSV File")
+        title.setFont(QFont("Arial", 14, QFont.Bold))
 
-        # -------- TABLE --------
-        self.table = QTableWidget()
-        self.table.setMinimumHeight(260)
-        self.table.setStyleSheet("""
-            QTableWidget {
-                background-color: #ffffff;
-                color: #000000;
-                border-radius: 10px;
-                gridline-color: #dcdcdc;
-            }
-            QTableWidget::item {
-                padding: 6px;
-            }
-            QHeaderView::section {
-                background-color: #2e86de;
-                color: white;
-                padding: 8px;
-                font-weight: bold;
-                border: none;
-            }
-        """)
-        self.table.horizontalHeader().setStretchLastSection(True)
-        self.main_layout.addWidget(self.table)
+        self.name_input = QLineEdit()
+        self.name_input.setPlaceholderText("Your Name")
 
-        # -------- CHART --------
-        chart_frame = QFrame()
-        chart_frame.setStyleSheet("""
-            background-color: #ffffff;
-            border-radius: 10px;
-            padding: 10px;
-        """)
+        self.email_input = QLineEdit()
+        self.email_input.setPlaceholderText("Your Email")
 
-        chart_layout = QVBoxLayout()
+        select_btn = QPushButton("Select CSV")
+        upload_btn = QPushButton("Upload")
+
+        self.style_orange_button(select_btn)
+        self.style_orange_button(upload_btn)
+
+        select_btn.clicked.connect(self.select_file)
+        upload_btn.clicked.connect(self.upload_csv)
+
+        card_layout.addWidget(title)
+        card_layout.addWidget(self.name_input)
+        card_layout.addWidget(self.email_input)
+        card_layout.addWidget(select_btn)
+        card_layout.addWidget(upload_btn)
+
+        layout.addWidget(card)
+        return widget
+
+    # ---------- DASHBOARD ----------
+    def dashboard_view(self):
+        widget = QWidget()
+        layout = QVBoxLayout(widget)
+        layout.setAlignment(Qt.AlignTop)
+        layout.setContentsMargins(40, 30, 40, 30)
+        layout.setSpacing(20)
+
+        # Summary cards
+        summary_row = QHBoxLayout()
+        summary_row.setSpacing(16)
+
+        self.total_card = self.create_summary_card("Total Equipment")
+        self.flow_card = self.create_summary_card("Avg Flowrate")
+        self.pressure_card = self.create_summary_card("Avg Pressure")
+        self.temp_card = self.create_summary_card("Avg Temperature")
+
+        summary_row.addWidget(self.total_card)
+        summary_row.addWidget(self.flow_card)
+        summary_row.addWidget(self.pressure_card)
+        summary_row.addWidget(self.temp_card)
+
+        layout.addLayout(summary_row)
+
+        # Chart card
+        chart_card = Card()
+        chart_layout = QVBoxLayout(chart_card)
+
+        chart_title = QLabel("Equipment Type Distribution")
+        chart_title.setFont(QFont("Arial", 13, QFont.Bold))
+
         self.figure = Figure(figsize=(6, 4))
         self.canvas = FigureCanvas(self.figure)
+
+        chart_layout.addWidget(chart_title)
         chart_layout.addWidget(self.canvas)
-        chart_frame.setLayout(chart_layout)
 
-        self.main_layout.addWidget(chart_frame)
+        layout.addWidget(chart_card)
 
-        self.setLayout(self.main_layout)
+        return widget
 
-    # ---------------- CSV UPLOAD ----------------
-    def upload_csv(self):
-        file_path, _ = QFileDialog.getOpenFileName(
-            self, "Select CSV File", "", "CSV Files (*.csv)"
+    # ---------- HISTORY ----------
+    def history_view(self):
+        widget = QWidget()
+        layout = QVBoxLayout(widget)
+        layout.setContentsMargins(40, 30, 40, 30)
+
+        card = Card()
+        card_layout = QVBoxLayout(card)
+
+        title = QLabel("Upload History")
+        title.setFont(QFont("Arial", 14, QFont.Bold))
+
+        self.history_table = QTableWidget(0, 4)
+        self.history_table.setHorizontalHeaderLabels(
+            ["Name", "Email", "Uploaded At", "Total Equipment"]
         )
 
-        if not file_path:
+        card_layout.addWidget(title)
+        card_layout.addWidget(self.history_table)
+        layout.addWidget(card)
+
+        return widget
+
+    # ---------- SUMMARY CARD ----------
+    def create_summary_card(self, title):
+        card = Card()
+        layout = QVBoxLayout(card)
+        layout.setAlignment(Qt.AlignCenter)
+
+        title_label = QLabel(title)
+        title_label.setStyleSheet("color: #666; font-size: 12px;")
+
+        value_label = QLabel("0")
+        value_label.setStyleSheet("""
+            color: #111;
+            font-size: 22px;
+            font-weight: bold;
+        """)
+
+        layout.addWidget(title_label)
+        layout.addWidget(value_label)
+
+        card.value_label = value_label
+        return card
+
+    # ---------- LOGIC ----------
+    def select_file(self):
+        file, _ = QFileDialog.getOpenFileName(
+            self, "Select CSV", "", "CSV Files (*.csv)"
+        )
+        if file:
+            self.file_path = file
+
+    def upload_csv(self):
+        if not self.name_input.text() or not self.email_input.text():
+            return
+        if not hasattr(self, "file_path"):
             return
 
-        try:
-            with open(file_path, "rb") as f:
-                response = requests.post(API_URL, files={"file": f})
+        with open(self.file_path, "rb") as f:
+            response = requests.post(
+                f"{API_BASE}/upload/",
+                files={"file": f}
+            )
 
-            if response.status_code != 200:
-                QMessageBox.warning(self, "Error", "Upload failed ❌")
-                return
+        if response.status_code == 200:
+            self.data = response.json()
+            self.update_dashboard()
 
-            data = response.json()
-            QMessageBox.information(self, "Success", "CSV uploaded successfully ✅")
+            self.history.append([
+                self.name_input.text(),
+                self.email_input.text(),
+                "Now",
+                str(self.data["total_count"])
+            ])
+            self.update_history()
 
-            self.show_cards(data)
-            self.show_table(data["table_data"])
-            self.show_chart(data["type_distribution"])
+            self.stack.setCurrentIndex(1)
 
-        except Exception as e:
-            QMessageBox.critical(self, "Error", str(e))
+    def update_dashboard(self):
+        self.total_card.value_label.setText(str(self.data["total_count"]))
+        self.flow_card.value_label.setText(f"{self.data['avg_flowrate']:.2f}")
+        self.pressure_card.value_label.setText(f"{self.data['avg_pressure']:.2f}")
+        self.temp_card.value_label.setText(f"{self.data['avg_temperature']:.2f}")
 
-    # ---------------- SUMMARY ----------------
-    def show_cards(self, data):
-        while self.cards_layout.count():
-            item = self.cards_layout.takeAt(0)
-            if item.widget():
-                item.widget().deleteLater()
-
-        cards = [
-            ("Total Equipment", data["total_count"]),
-            ("Avg Flowrate", f"{data['avg_flowrate']:.2f}"),
-            ("Avg Pressure", f"{data['avg_pressure']:.2f}"),
-            ("Avg Temperature", f"{data['avg_temperature']:.2f}")
-        ]
-
-        for title, value in cards:
-            self.cards_layout.addWidget(InfoCard(title, value))
-
-    # ---------------- TABLE ----------------
-    def show_table(self, table_data):
-        headers = ["Equipment Name", "Type", "Flowrate", "Pressure", "Temperature"]
-        self.table.setColumnCount(len(headers))
-        self.table.setRowCount(len(table_data))
-        self.table.setHorizontalHeaderLabels(headers)
-
-        for r, row in enumerate(table_data):
-            for c, key in enumerate(headers):
-                item = QTableWidgetItem(str(row[key]))
-                item.setForeground(Qt.black)  # FORCE VISIBILITY
-                self.table.setItem(r, c, item)
-
-        self.table.resizeColumnsToContents()
-
-    # ---------------- CHART ----------------
-    def show_chart(self, distribution):
         self.figure.clear()
         ax = self.figure.add_subplot(111)
-
-        ax.bar(distribution.keys(), distribution.values())
-        ax.set_title("Equipment Type Distribution")
-        ax.set_xlabel("Equipment Type")
-        ax.set_ylabel("Count")
-        ax.tick_params(axis="x", rotation=25)
-
+        ax.bar(
+            self.data["type_distribution"].keys(),
+            self.data["type_distribution"].values(),
+            color="#f09819"
+        )
         self.canvas.draw()
 
+    def update_history(self):
+        self.history_table.setRowCount(len(self.history))
+        for r, row in enumerate(self.history):
+            for c, val in enumerate(row):
+                self.history_table.setItem(r, c, QTableWidgetItem(val))
 
-# ---------------- RUN APP ----------------
+
+# ---------- RUN ----------
 if __name__ == "__main__":
     app = QApplication(sys.argv)
     window = MainWindow()
