@@ -29,15 +29,27 @@ const API_BASE =
   "https://chemical-equipment-visualizer-i9my.onrender.com/api";
 
 function App() {
+  /* ---------------- STATE ---------------- */
   const [file, setFile] = useState(null);
   const [data, setData] = useState(null);
   const [message, setMessage] = useState("");
 
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [history, setHistory] = useState([]);
+  const [showHistory, setShowHistory] = useState(false);
+
+  /* ---------------- HANDLERS ---------------- */
   const handleFileChange = (e) => {
     setFile(e.target.files[0]);
   };
 
   const handleUpload = async () => {
+    if (!name || !email) {
+      setMessage("Please enter your name and email");
+      return;
+    }
+
     if (!file) {
       setMessage("Please select a CSV file");
       return;
@@ -51,8 +63,19 @@ function App() {
         `${API_BASE}/upload/`,
         formData
       );
+
       setData(response.data);
       setMessage("CSV uploaded successfully ✅");
+      setShowHistory(false); // return to upload view
+
+      const newEntry = {
+        name,
+        email,
+        timestamp: new Date().toLocaleString(),
+        total: response.data.total_count,
+      };
+
+      setHistory((prev) => [newEntry, ...prev]);
     } catch (error) {
       console.error(error);
       setMessage("Upload failed ❌");
@@ -90,6 +113,7 @@ function App() {
     }
   };
 
+  /* ---------------- CHART DATA ---------------- */
   const chartData =
     data && {
       labels: Object.keys(data.type_distribution),
@@ -102,15 +126,34 @@ function App() {
       ],
     };
 
+  /* ---------------- UI ---------------- */
   return (
     <>
-      {/* Top Navbar */}
-      <Navbar />
+      <Navbar
+        onUploadClick={() => setShowHistory(false)}
+        onHistoryClick={() => setShowHistory(true)}
+      />
 
       <div className="page-container">
         {/* Upload Card */}
         <div className="upload-card">
           <h2>Upload CSV File</h2>
+
+          <input
+            type="text"
+            placeholder="Your Name"
+            className="file-input"
+            value={name}
+            onChange={(e) => setName(e.target.value)}
+          />
+
+          <input
+            type="email"
+            placeholder="Your Email"
+            className="file-input"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+          />
 
           <input
             type="file"
@@ -135,9 +178,10 @@ function App() {
           <p className="status-text">{message}</p>
         </div>
 
-        {/* Summary Section */}
-        {data && (
+        {/* Analytics Sections */}
+        {data && !showHistory && (
           <>
+            {/* Summary */}
             <div className="section-card">
               <h2>Summary</h2>
               <div className="summary-grid">
@@ -196,12 +240,39 @@ function App() {
             </div>
           </>
         )}
+
+        {/* History Section (ONLY when clicked) */}
+        {showHistory && history.length > 0 && (
+          <div className="section-card">
+            <h2>Upload History</h2>
+            <table className="data-table">
+              <thead>
+                <tr>
+                  <th>Name</th>
+                  <th>Email</th>
+                  <th>Uploaded At</th>
+                  <th>Total Equipment</th>
+                </tr>
+              </thead>
+              <tbody>
+                {history.map((item, index) => (
+                  <tr key={index}>
+                    <td>{item.name}</td>
+                    <td>{item.email}</td>
+                    <td>{item.timestamp}</td>
+                    <td>{item.total}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        )}
       </div>
     </>
   );
 }
 
-/* Summary Card Component */
+/* ---------------- SUMMARY CARD ---------------- */
 function SummaryCard({ title, value }) {
   return (
     <div className="summary-card">
