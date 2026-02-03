@@ -1,84 +1,125 @@
 🧪 Chemical Equipment Parameter Visualizer
 Hybrid Web + Desktop Data Analytics Application
-🔗 Live Web Application:
-👉 https://chemical-equipment-visualizer-1-o43s.onrender.com�
-📌 Project Overview
-The Chemical Equipment Parameter Visualizer is a hybrid Web and Desktop application designed to analyze and visualize operational parameters of chemical equipment from CSV datasets.
-A single Django REST backend powers both:
-🌐 a Web Dashboard built with React
-🖥️ a Desktop Application built with PyQt5
-The system enables users to upload datasets, compute summary statistics, visualize trends, and maintain upload history with user metadata.
+🔗 Live Web Application
+👉 https://chemical-equipment-visualizer-1-o43s.onrender.com
+📖 Project Overview
+The Chemical Equipment Parameter Visualizer is a hybrid Web + Desktop data analytics application designed to analyze and visualize operational parameters of chemical equipment using CSV datasets.
+A single Django REST backend powers both platforms:
+🌐 Web Dashboard built with React
+🖥️ Desktop Application built with PyQt5
+The system allows users to upload datasets, compute summary statistics, visualize trends, generate reports, and maintain upload history along with user metadata.
 🎯 Key Objectives
-Enable structured analysis of chemical equipment data
-Provide consistent UX across web and desktop platforms
-Demonstrate full-stack development with real-world workflows
-Showcase data visualization and analytics skills
+Enable structured analysis of chemical equipment operational data
+Provide a consistent user experience across web and desktop platforms
+Demonstrate full-stack development with real-world data workflows
+Showcase data analytics, visualization, and reporting skills
 ⚙️ Tech Stack
-Backend
-Technology
-Purpose
-Python
-Core language
-Django
-Backend framework
-Django REST Framework
-API development
-Pandas
-CSV parsing & analytics
-SQLite
-Data persistence
-ReportLab
-PDF report generation
-Frontend (Web)
-Technology
-Purpose
-React.js
-UI development
-Axios
-API communication
-Chart.js
-Data visualization
-CSS
-Styling & layout
-Frontend (Desktop)
-Technology
-Purpose
-PyQt5
-Desktop UI
-Matplotlib
-Chart rendering
-Requests
-API integration
-Deployment & Tools
+🔧 Backend
+Technology	Purpose
+Python	Core programming language
+Django	Backend framework
+Django REST Framework	API development
+Pandas	CSV parsing & analytics
+SQLite	Data persistence
+ReportLab	PDF report generation
+🌐 Frontend (Web)
+Technology	Purpose
+React.js	UI development
+Axios	API communication
+Chart.js	Data visualization
+CSS	Styling & layout
+🖥️ Frontend (Desktop)
+Technology	Purpose
+PyQt5	Desktop UI
+Matplotlib	Chart rendering
+Requests	API integration
+🚀 Deployment & Tools
 Render – Backend & Web deployment
 Git & GitHub – Version control
 🚀 Features
 📂 CSV Upload
-Upload CSV files containing:
+Upload CSV files containing the following fields:
 Equipment Name
-Type
+Equipment Type
 Flowrate
 Pressure
 Temperature
 📊 Data Analytics
 Total equipment count
-Average flowrate, pressure, and temperature
+Average flowrate
+Average pressure
+Average temperature
 Equipment type distribution
 📈 Visualization
-Interactive bar charts (Web: Chart.js)
-Desktop charts (Matplotlib)
-Tabular data view
+Interactive bar charts on Web (Chart.js)
+Desktop charts using Matplotlib
+Tabular data representation
 🧾 PDF Report Generation
-Download a summarized PDF report of uploaded data
+Generate and download a summarized PDF report of uploaded datasets
 👤 User Metadata Capture
 Capture Name and Email before upload
-Attach metadata to each dataset
+Attach metadata to each dataset submission
 🕒 Upload History
-View upload history with:
+View upload history including:
 Name
 Email
 Timestamp
+
+
 Equipment count
-History shown only when selected via navigation
+
+
+
+
+History is displayed only when selected via navigation for clarity
+
+
+
 🔁 Unified Backend
-Same API consumed by both Web and Desktop applications
+
+
+A single REST API serves both:
+
+
+Web application
+
+
+Desktop application
+
+
+
+
+
+📌 Use Case
+This project is ideal for:
+
+
+Chemical process monitoring simulations
+
+
+Academic and lab-based data analysis
+
+
+Demonstrating full-stack data analytics systems
+
+
+Portfolio projects for data, backend, or full-stack roles
+
+
+
+🧠 Learning Outcomes
+
+
+REST API design with Django
+
+
+Frontend–backend integration
+
+
+Data analytics using Pandas
+
+
+Multi-platform application architecture
+
+
+Visualization and report generation
