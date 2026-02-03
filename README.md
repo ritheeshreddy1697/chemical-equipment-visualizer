@@ -1,131 +1,206 @@
-# 🧪 Chemical Equipment Parameter Visualizer
-**Hybrid Web + Desktop Data Analytics Application**
+Chemical Equipment parameter visualizer
+Hybrid Web + Desktop Application
 
-🌐 **Live Web Application:**  
-https://chemical-equipment-visualizer-1-o43s.onrender.com
+This project is part of the FOSSEE Internship Screening Task.
+It is a hybrid solution that functions as both a Web Application and a Desktop Application, powered by a shared Django backend.
 
----
+🚀 Live Demo Links
 
-## 📌 Project Overview
+Component	Link
+🌐 Web App	https://symphonious-truffle-440ed5.netlify.app/
+🔙 Backend API	Render backend link you deployed
+🖥 Desktop App (.exe)	Available inside /desktop_app/dist
+📌 Features
 
-The **Chemical Equipment Parameter Visualizer** is a hybrid **Web and Desktop application** designed to analyze and visualize operational parameters of chemical equipment using CSV datasets.
+🌐 Web Application (React + Vite)
 
-A **single Django REST backend** serves both:
-- 🌐 a **React-based Web Dashboard**
-- 🖥️ a **PyQt5-based Desktop Application**
+Upload CSV files
+Display summary (total count, averages)
+Show bar & pie charts
+View last 5 uploaded datasets
+Download formatted PDF report
+🖥 Desktop Application (PyQt5)
 
-The system demonstrates real-world full-stack development with data analytics, visualization, and cross-platform UI consistency.
+Upload CSV directly from your system
+Fetch real-time summary from backend
+View interactive Matplotlib charts
+Display upload history
+Download and save PDF reports locally
+🗄 Backend (Django REST Framework)
 
----
-
-## 🎯 Key Objectives
-
-- Analyze chemical equipment operational data
-- Provide a consistent user experience across Web and Desktop
-- Perform statistical analysis on uploaded datasets
-- Visualize insights using charts and tables
-- Demonstrate professional full-stack architecture
-
----
-
-## ⚙️ Technology Stack
-
-### Backend
-- Python
-- Django
-- Django REST Framework
-- Pandas
-- SQLite
-- ReportLab (PDF generation)
-
-### Web Frontend
-- React.js
-- Axios
-- Chart.js
-- CSS
-
-### Desktop Frontend
-- PyQt5
-- Matplotlib
-- Requests
-
-### DevOps & Tools
-- Render (deployment)
-- Git & GitHub (version control)
-
----
-
-## 🚀 Features
-
-- CSV file upload with validation
-- Summary analytics:
-  - Total equipment count
-  - Average flowrate
-  - Average pressure
-  - Average temperature
-- Equipment type distribution visualization
-- Tabular data display
-- PDF report generation
-- Name & Email capture before upload
-- Upload history tracking with metadata
-- Shared backend for Web and Desktop applications
-
----
-
-## 🖥️ Application Architecture
-
-chemical-equipment-visualizer/ │ ├── backend/                # Django REST backend │   ├── core/ │   ├── equipment/ │   └── manage.py │ ├── web-frontend/           # React web application │   ├── src/ │   └── package.json │ ├── desktop-app/            # PyQt5 desktop application │   └── main.py │ └── README.md
-
+CSV parsing & validation
+Flexible column mapping (supports minor typos)
+Automatic summary generation
+Type distribution analytics
+PDF report generation (ReportLab)
+Stores last 5 uploaded datasets
+APIs used by both Web + Desktop
 🛠️ Setup Instructions
+This project contains three components:
 
-##Backend (Django)
+Django Backend API
+React Web Application
+PyQt5 Desktop Application
+Follow the instructions below to set up and run each part locally.
 
-##Web Frontend (React)
+1️. Backend Setup (Django API)
 
-##Desktop Application (PyQt5)
-## 🌐 Deployment
+Requirements
 
-- **Backend and Web Frontend:** Deployed on **Render**
-- **Live Application URL:**  
-  https://chemical-equipment-visualizer-1-o43s.onrender.com
+Python 3.10+
+pip
+Steps
 
----
+1. Clone the repository
 
-## 🎥 Demo (Optional)
+git clone https://github.com/Adhityae-506/FOSSEE-Chemical-Equipment-Visualizer.git
+cd FOSSEE-Chemical-Equipment-Visualizer
+2. Create a virtual environment
 
-A short **2–3 minute demo video** can be recorded demonstrating:
+python -m venv .venv
+3. Activate the environment
 
-- CSV file upload
-- Summary analytics
-- Charts and tabular data visualization
-- Upload history navigation
-- PDF report download
+Windows
 
----
+.venv\Scripts\activate
+macOS / Linux
 
-## 🧠 Learning Outcomes
+source .venv/bin/activate
+4. Install backend dependencies
 
-- Full-stack development using **Django** and **React**
-- REST API design and integration
-- Cross-platform UI development (**Web + Desktop**)
-- Data analytics using **Pandas**
-- Data visualization using **Chart.js** and **Matplotlib**
-- Cloud deployment using **Render**
-- Professional **Git & GitHub** workflow and project structuring
+pip install -r requirement.txt
+5. Apply migrations
 
----
+python manage.py migrate
+6. Run backend server
 
-## 📌 Future Enhancements
+python manage.py runserver
+API will be available at
 
-- User authentication and authorization
-- Persistent database-backed upload history
-- Export upload history to CSV
-- Advanced data filtering and search
-- Desktop application packaging (`.exe` / `.dmg`)
+https:127.0.0.1:8000/api/
 
----
+2️. Web Application Setup (React Frontend)
 
-## 👨‍💻 Author
+Requirements
 
-**Ritheesh Reddy**  
-Aspiring Software Engineer | Full-Stack & Data Analytics Enthusiast
+Node.js v18+
+npm
+Steps
+
+1. Navigate to frontend folder
+
+cd frontend
+2. Install dependencies
+
+npm install
+3. Start the development server
+
+npm run dev
+Web app will run at:
+
+https://localhost:5173
+
+Configure API Base URL
+
+Inside frontend/src/api/api.js
+
+const API_BASE = "https://127.0.0.1:8000";
+3️. Desktop Application Setup (PyQt5)
+
+Requirements
+
+Python 3.10+
+PyQt5
+Steps
+
+1. Navigate to desktop app directory
+
+cd desktop_app
+2. Run the application
+
+python main.py
+A GUI window will open
+
+IMPORTANT: Make sure the backend server is running before starting the desktop app.
+
+4. Using the Application (Web + Desktop)
+
+Upload CSV File
+
+Upload a .csv file with columns:
+
+equipment_name
+type
+flowrate
+pressure
+temperature
+5. Desktop App EXE
+
+The packaged EXE is available at:
+
+desktop_app/dist/
+📂 Test Data — Sample CSV (Required for Testing)
+
+This project includes a sample dataset required to test all features of the Web and Desktop applications.
+
+Location
+
+sample_equipment_data.csv
+This CSV file contains chemical equipment data and is used to test:
+
+Uploading datasets
+Summary API
+Charts (bar + pie)
+Recent upload history
+PDF report generation
+Desktop app upload workflow
+📌 Evaluators can use this CSV while testing the project.
+Upload it through either interface (React Web App or PyQt5 Desktop App) to validate the entire pipeline.
+
+📊 PDF Report Includes
+
+Title & metadata
+Summary statistics table
+Equipment type pie chart
+Page 2 → First 30 rows of CSV
+Clean and professional styling
+💻 Desktop App (EXE) Usage
+
+Download the executable from /desktop_app/dist
+Double-click to open
+Upload CSV → View Summary → View Charts → Download Report
+🌐 Web App Usage
+
+Open → https://symphonious-truffle-440ed5.netlify.app/
+Click Upload CSV
+View summary + charts
+Download the PDF report
+Check History to see last 5 datasets
+🛠 Technologies Used
+
+Frontend
+
+React
+Vite
+Chart.js
+Backend
+
+Django
+Django REST Framework
+Pandas
+Matplotlib
+ReportLab
+Whitenoise
+Desktop
+
+PyQt5
+Matplotlib
+Requests
+📌 Developer Notes
+
+Both Desktop and Web applications communicate with a common backend API
+Desktop version packaged using PyInstaller
+Fully deployed (Backend: Render, Frontend: Netlify)
+🙌 Contributions
+Made by: Adhitya E
+For FOSSEE IIT-Bombay Internship Screening
