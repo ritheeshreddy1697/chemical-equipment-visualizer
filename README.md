@@ -116,12 +116,13 @@ npm install
 npm run dev
 ```
 ##### Web app will run at:
-https://localhost:5173
+http://localhost:3000
+
 
 #### Configure API Base URL
 Inside frontend/src/api/api.js
 ```js
-const API_BASE = "https://127.0.0.1:8000";
+const API_BASE = " http://192.168.1.10:3000";
 ```
 
 ## 3️. Desktop Application Setup (PyQt5)
