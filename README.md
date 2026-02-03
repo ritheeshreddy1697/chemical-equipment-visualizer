@@ -191,7 +191,7 @@ Upload it through either interface (React Web App or PyQt5 Desktop App) to valid
 
 
 
-📊 PDF Report Includes  
+### 📊 PDF Report Includes  
 <img width="1068" height="1460" alt="image" src="https://github.com/user-attachments/assets/b00b734e-b6ed-459f-b788-09efb8ae9b22" />
 
 
