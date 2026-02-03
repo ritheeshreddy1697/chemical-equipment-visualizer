@@ -7,8 +7,8 @@ It is a hybrid solution that functions as both a Web Application and a Desktop A
 🚀 Live Demo Links  
 Component | Link  
 --- | ---  
-🌐 Web App | https://symphonious-truffle-440ed5.netlify.app/  
-🔙 Backend API | Render backend link you deployed  
+🌐 Web App |(https://chemical-equipment-visualizer-1-o43s.onrender.com)  
+🔙 Backend API | https://chemical-equipment-visualizer-i9my.onrender.com 
 🖥 Desktop App (.exe) | Available inside /desktop_app/dist  
 
 📌 Features  
@@ -61,8 +61,7 @@ Follow the instructions below to set up and run each part locally.
 
 #### 1. Clone the repository
 ```bash
-git clone https://github.com/Adhityae-506/FOSSEE-Chemical-Equipment-Visualizer.git
-cd FOSSEE-Chemical-Equipment-Visualizer
+https://github.com/ritheeshreddy1697/chemical-equipment-visualizer.git
 ```
 #### 2. Create a virtual environment
 ```bash
@@ -93,6 +92,10 @@ python manage.py runserver
 https:127.0.0.1:8000/api/
 
 ## 2️. Web Application Setup (React Frontend)
+
+### Screen shot of web
+<img width="3420" height="2214" alt="image" src="https://github.com/user-attachments/assets/cf00f742-8fcb-4bd7-8929-efa8199895d5" />
+
 
 ### Requirements
 - Node.js v18+
@@ -167,9 +170,13 @@ sample_equipment_data.csv
 
 This CSV file contains chemical equipment data and is used to test:
 
+```text
+Equipment Name, Equipment Type, Flowrate, Pressure, Temperature
+```
+
 - Uploading datasets  
 - Summary API  
-- Charts (bar + pie)  
+- Charts (bar) 
 - Recent upload history  
 - PDF report generation  
 - Desktop app upload workflow  
@@ -182,17 +189,16 @@ Upload it through either interface (React Web App or PyQt5 Desktop App) to valid
 📊 PDF Report Includes  
 - Title & metadata  
 - Summary statistics table  
-- Equipment type pie chart  
-- Page 2 → First 30 rows of CSV  
+- Equipment type bar chart  
 - Clean and professional styling  
 
 💻 Desktop App (EXE) Usage  
 - Download the executable from /desktop_app/dist  
 - Double-click to open  
-- Upload CSV → View Summary → View Charts → Download Report  
+- Upload CSV → View Summary → View Chart → Download Report  
 
 🌐 Web App Usage  
-- Open → https://symphonious-truffle-440ed5.netlify.app/  
+- Open →(https://chemical-equipment-visualizer-1-o43s.onrender.com/) 
 - Click Upload CSV  
 - View summary + charts  
 - Download the PDF report  
@@ -221,10 +227,11 @@ Desktop
 📌 Developer Notes  
 - Both Desktop and Web applications communicate with a common backend API  
 - Desktop version packaged using PyInstaller  
-- Fully deployed (Backend: Render, Frontend: Netlify)  
+- Fully deployed (Backend: Render, Frontend: Render)  
 
 🙌 Contributions  
 Made by: Ritheesh Reddy Cheemala 
+        IIIT Sonepat
 For **FOSSEE IIT-Bombay Internship Screening**
 
 
