@@ -26,8 +26,7 @@ ChartJS.register(
 );
 
 
-  const API_BASE = "http://127.0.0.1:8000/api";
-
+const API_BASE = import.meta.env.VITE_API_BASE;
 function App() {
   /* ---------------- STATE ---------------- */
   const [file, setFile] = useState(null);
@@ -44,44 +43,53 @@ function App() {
     setFile(e.target.files[0]);
   };
 
-  const handleUpload = async () => {
-    if (!name || !email) {
-      setMessage("Please enter your name and email");
-      return;
-    }
+const handleUpload = async () => {
+  // ✅ Name & Email validation (KEEP THIS)
+  if (!name || !email) {
+    setMessage("Please enter your name and email");
+    return;
+  }
 
-    if (!file) {
-      setMessage("Please select a CSV file");
-      return;
-    }
+  // ✅ File validation
+  if (!file) {
+    setMessage("Please select a CSV file");
+    return;
+  }
 
-    const formData = new FormData();
-    formData.append("file", file);
+  const formData = new FormData();
+  formData.append("file", file);
+  formData.append("name", name);
+  formData.append("email", email);
 
-    try {
-      const response = await axios.post(
-        `${API_BASE}/upload/`,
-        formData
-      );
+  try {
+    const response = await axios.post(
+      `${API_BASE}/upload/`,
+      formData,
+      {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      }
+    );
 
-      setData(response.data);
-      setMessage("CSV uploaded successfully ✅");
-      setShowHistory(false); // return to upload view
+    setData(response.data);
+    setMessage("CSV uploaded successfully ✅");
 
-      const newEntry = {
+    // ✅ Optional: update history
+    setHistory((prev) => [
+      {
         name,
         email,
         timestamp: new Date().toLocaleString(),
         total: response.data.total_count,
-      };
-
-      setHistory((prev) => [newEntry, ...prev]);
-    } catch (error) {
-      console.error(error);
-      setMessage("Upload failed ❌");
-    }
-  };
-
+      },
+      ...prev,
+    ]);
+  } catch (error) {
+    console.error(error);
+    setMessage("Upload failed ❌");
+  }
+};
   const handleDownloadPDF = async () => {
     if (!file) {
       alert("Upload a CSV file first");
