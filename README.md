@@ -1,151 +1,115 @@
 # 🧪 Chemical Equipment Parameter Visualizer
 **Hybrid Web + Desktop Data Analytics Application**
 
-🔗 **Live Web Application**  
-👉 https://chemical-equipment-visualizer-1-o43s.onrender.com
+🌐 **Live Web Application:**  
+https://chemical-equipment-visualizer-1-o43s.onrender.com
 
 ---
 
-## 📖 Project Overview
+## 📌 Project Overview
 
-The **Chemical Equipment Parameter Visualizer** is a hybrid **Web + Desktop** data analytics application designed to analyze and visualize operational parameters of chemical equipment from CSV datasets.
+The **Chemical Equipment Parameter Visualizer** is a hybrid **Web and Desktop application** designed to analyze and visualize operational parameters of chemical equipment using CSV datasets.
 
-A **single Django REST backend** powers both platforms:
+A **single Django REST backend** serves both:
+- 🌐 a **React-based Web Dashboard**
+- 🖥️ a **PyQt5-based Desktop Application**
 
-- 🌐 **Web Dashboard** built using **React**
-- 🖥️ **Desktop Application** built using **PyQt5**
-
-The system allows users to upload datasets, compute summary statistics, visualize trends, generate PDF reports, and maintain upload history with user metadata.
+The system demonstrates real-world full-stack development with data analytics, visualization, and cross-platform UI consistency.
 
 ---
 
 ## 🎯 Key Objectives
 
-- Enable structured analysis of chemical equipment data  
-- Provide a consistent user experience across web and desktop platforms  
-- Demonstrate full-stack development with real-world workflows  
-- Showcase data analytics and visualization skills  
+- Analyze chemical equipment operational data
+- Provide a consistent user experience across Web and Desktop
+- Perform statistical analysis on uploaded datasets
+- Visualize insights using charts and tables
+- Demonstrate professional full-stack architecture
 
 ---
 
-## ⚙️ Tech Stack
+## ⚙️ Technology Stack
 
-### 🔧 Backend
+### Backend
+- Python
+- Django
+- Django REST Framework
+- Pandas
+- SQLite
+- ReportLab (PDF generation)
 
-| Technology | Purpose |
-|----------|---------|
-| Python | Core programming language |
-| Django | Backend framework |
-| Django REST Framework | REST API development |
-| Pandas | CSV parsing & analytics |
-| SQLite | Data persistence |
-| ReportLab | PDF report generation |
+### Web Frontend
+- React.js
+- Axios
+- Chart.js
+- CSS
 
----
+### Desktop Frontend
+- PyQt5
+- Matplotlib
+- Requests
 
-### 🌐 Frontend (Web)
-
-| Technology | Purpose |
-|----------|---------|
-| React.js | User interface development |
-| Axios | API communication |
-| Chart.js | Interactive data visualization |
-| CSS | Styling & layout |
-
----
-
-### 🖥️ Frontend (Desktop)
-
-| Technology | Purpose |
-|----------|---------|
-| PyQt5 | Desktop UI framework |
-| Matplotlib | Chart rendering |
-| Requests | API integration |
-
----
-
-### 🚀 Deployment & Tools
-
-- **Render** – Backend & Web deployment  
-- **Git & GitHub** – Version control  
+### DevOps & Tools
+- Render (deployment)
+- Git & GitHub (version control)
 
 ---
 
 ## 🚀 Features
 
-### 📂 CSV Upload
-Upload CSV files containing:
-- Equipment Name  
-- Equipment Type  
-- Flowrate  
-- Pressure  
-- Temperature  
+- CSV file upload with validation
+- Summary analytics:
+  - Total equipment count
+  - Average flowrate
+  - Average pressure
+  - Average temperature
+- Equipment type distribution visualization
+- Tabular data display
+- PDF report generation
+- Name & Email capture before upload
+- Upload history tracking with metadata
+- Shared backend for Web and Desktop applications
 
 ---
 
-### 📊 Data Analytics
-- Total equipment count  
-- Average flowrate  
-- Average pressure  
-- Average temperature  
-- Equipment type distribution  
+## 🖥️ Application Architecture
 
----
+🛠️ Setup Instructions
 
-### 📈 Visualization
-- Interactive bar charts (Web using Chart.js)  
-- Desktop charts (Matplotlib)  
-- Tabular data representation  
+Backend (Django)
 
----
+Web Frontend (React)
 
-### 🧾 PDF Report Generation
-- Download a summarized PDF report of uploaded data  
+Desktop Application (PyQt5)
 
----
+🌐 Deployment
+Backend and Web Frontend are deployed on Render
+Live URL: https://chemical-equipment-visualizer-1-o43s.onrender.com�
 
-### 👤 User Metadata Capture
-- Capture **Name** and **Email** before upload  
-- Attach metadata to each dataset  
+🎥 Demo (Optional)
+A short 2–3 minute demo video can be recorded demonstrating:
+CSV upload
+Summary analytics
+Charts and tables
+Upload history navigation
+PDF report download
 
----
+🧠 Learning Outcomes
+Full-stack development using Django and React
+REST API design and integration
+Cross-platform UI development (Web + Desktop)
+Data analytics using Pandas
+Data visualization with Chart.js and Matplotlib
+Cloud deployment using Render
+Professional Git workflow and project structuring
 
-### 🕒 Upload History
-- View upload history with:
-  - Name  
-  - Email  
-  - Timestamp  
-  - Equipment count  
-- History displayed only when selected via navigation  
+📌 Future Enhancements
+User authentication and authorization
+Persistent database-backed upload history
+Export history to CSV
+Advanced data filtering and search
+Desktop application packaging (.exe / .dmg)
 
----
-
-### 🔁 Unified Backend
-- A single REST API consumed by both:
-  - Web application  
-  - Desktop application  
-
----
-
-## 📌 Use Cases
-
-- Chemical process monitoring simulations  
-- Academic and laboratory data analysis  
-- Full-stack data analytics demonstrations  
-- Portfolio project for backend, data, or full-stack roles  
-
----
-
-## 🧠 Learning Outcomes
-
-- REST API design using Django  
-- Frontend–backend integration  
-- Data analytics using Pandas  
-- Multi-platform application architecture  
-- Visualization and PDF report generation  
-
----
-
-## 📜 License
-
-This project is intended for **educational and demonstration purposes**.
+👨‍💻 Author
+Ritheesh Reddy
+Aspiring Software Engineer | Full-Stack & Data Analytics Enthusiast
