@@ -74,6 +74,8 @@ The system demonstrates real-world full-stack development with data analytics, v
 
 ## 🖥️ Application Architecture
 
+chemical-equipment-visualizer/ │ ├── backend/                # Django REST backend │   ├── core/ │   ├── equipment/ │   └── manage.py │ ├── web-frontend/           # React web application │   ├── src/ │   └── package.json │ ├── desktop-app/            # PyQt5 desktop application │   └── main.py │ └── README.md
+
 🛠️ Setup Instructions
 
 ##Backend (Django)
