@@ -25,8 +25,9 @@ ChartJS.register(
   Legend
 );
 
+// 🔗 Render Backend
+const API_BASE = "https://chemical-equipment-visualizer-i9my.onrender.com/api";
 
-const API_BASE = import.meta.env.VITE_API_BASE;
 function App() {
   /* ---------------- STATE ---------------- */
   const [file, setFile] = useState(null);
@@ -35,6 +36,7 @@ function App() {
 
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
+
   const [history, setHistory] = useState([]);
   const [showHistory, setShowHistory] = useState(false);
 
@@ -43,56 +45,47 @@ function App() {
     setFile(e.target.files[0]);
   };
 
-const handleUpload = async () => {
-  // ✅ Name & Email validation (KEEP THIS)
-  if (!name || !email) {
-    setMessage("Please enter your name and email");
-    return;
-  }
+  const handleUpload = async () => {
+    if (!name || !email) {
+      setMessage("Please enter your name and email");
+      return;
+    }
 
-  // ✅ File validation
-  if (!file) {
-    setMessage("Please select a CSV file");
-    return;
-  }
+    if (!file) {
+      setMessage("Please select a CSV file");
+      return;
+    }
 
-  const formData = new FormData();
-  formData.append("file", file);
-  formData.append("name", name);
-  formData.append("email", email);
+    const formData = new FormData();
+    formData.append("file", file);
 
-  try {
-    const response = await axios.post(
-      `${API_BASE}/upload/`,
-      formData,
-      {
-        headers: {
-          "Content-Type": "multipart/form-data",
+    try {
+      const response = await axios.post(`${API_BASE}/upload/`, formData);
+
+      console.log("RESPONSE 👉", response.data);
+
+      setData(response.data);
+      setMessage("CSV uploaded successfully ✅");
+
+      // ✅ ADD TO HISTORY
+      setHistory((prev) => [
+        {
+          name,
+          email,
+          timestamp: new Date().toLocaleString(),
+          total: response.data.total_count,
         },
-      }
-    );
+        ...prev,
+      ]);
+    } catch (error) {
+      console.error("UPLOAD ERROR 👉", error);
+      setMessage("Upload failed ❌");
+    }
+  };
 
-    setData(response.data);
-    setMessage("CSV uploaded successfully ✅");
-
-    // ✅ Optional: update history
-    setHistory((prev) => [
-      {
-        name,
-        email,
-        timestamp: new Date().toLocaleString(),
-        total: response.data.total_count,
-      },
-      ...prev,
-    ]);
-  } catch (error) {
-    console.error(error);
-    setMessage("Upload failed ❌");
-  }
-};
   const handleDownloadPDF = async () => {
     if (!file) {
-      alert("Upload a CSV file first");
+      alert("Upload a CSV first");
       return;
     }
 
@@ -106,17 +99,15 @@ const handleUpload = async () => {
         { responseType: "blob" }
       );
 
-      const url = window.URL.createObjectURL(
-        new Blob([response.data])
-      );
+      const url = window.URL.createObjectURL(new Blob([response.data]));
       const link = document.createElement("a");
       link.href = url;
       link.setAttribute("download", "equipment_report.pdf");
       document.body.appendChild(link);
       link.click();
       link.remove();
-    } catch (error) {
-      console.error(error);
+    } catch (err) {
+      console.error(err);
       alert("Failed to download PDF");
     }
   };
@@ -175,10 +166,7 @@ const handleUpload = async () => {
               Upload
             </button>
 
-            <button
-              className="btn-secondary"
-              onClick={handleDownloadPDF}
-            >
+            <button className="btn-secondary" onClick={handleDownloadPDF}>
               Download Report
             </button>
           </div>
@@ -186,17 +174,14 @@ const handleUpload = async () => {
           <p className="status-text">{message}</p>
         </div>
 
-        {/* Analytics Sections */}
+        {/* MAIN CONTENT */}
         {data && !showHistory && (
           <>
             {/* Summary */}
             <div className="section-card">
               <h2>Summary</h2>
               <div className="summary-grid">
-                <SummaryCard
-                  title="Total Equipment"
-                  value={data.total_count}
-                />
+                <SummaryCard title="Total Equipment" value={data.total_count} />
                 <SummaryCard
                   title="Avg Flowrate"
                   value={data.avg_flowrate.toFixed(2)}
@@ -249,7 +234,7 @@ const handleUpload = async () => {
           </>
         )}
 
-        {/* History Section (ONLY when clicked) */}
+        {/* HISTORY */}
         {showHistory && history.length > 0 && (
           <div className="section-card">
             <h2>Upload History</h2>
