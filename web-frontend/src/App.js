@@ -25,8 +25,8 @@ ChartJS.register(
   Legend
 );
 
-const API_BASE =
-  "https://chemical-equipment-visualizer-i9my.onrender.com/api";
+
+  const API_BASE = "http://127.0.0.1:8000/api";
 
 function App() {
   /* ---------------- STATE ---------------- */
