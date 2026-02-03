@@ -126,6 +126,10 @@ const API_BASE = " http://192.168.1.10:3000";
 ```
 
 ## 3️. Desktop Application Setup (PyQt5)
+
+### Deskto-app
+<img width="3420" height="2214" alt="image" src="https://github.com/user-attachments/assets/94f4e7bb-402e-40d8-91a9-9bedca530ee5" />
+
 ### Requirements
 - Python 3.10+
 - PyQt5 
